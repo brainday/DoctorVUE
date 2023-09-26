@@ -1,7 +1,7 @@
 <template>
   <ul>
     <li v-for="item in shedule" :key="item.id">
-      {{ item.departments[0].name }}
+      {{ item }}
     </li>
   </ul>
 </template>
@@ -14,6 +14,7 @@ export default {
   name: 'App',
   data() {
     return {
+      oidMO: '1.2.643.5.1.13.13.12.2.72.7326',
       shedule: []
     }
   },
@@ -40,7 +41,10 @@ export default {
         'x-access-token': JSON.parse(localStorage.getItem('x-access-token'))
       };
 
-      await axios.get('http://127.0.0.1:5000/api/data', { headers })
+      const oidMO = this.oidMO;
+      const url = `http://127.0.0.1:5000/api/data/${oidMO}`
+
+      await axios.get(url, { headers })
     .then((response) => {
       console.log(response);
       this.shedule = response.data
